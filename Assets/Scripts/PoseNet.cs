@@ -28,11 +28,37 @@ public class PoseNet : MonoBehaviour
 
     // The interface used to execute the neural network
     private IWorker engine;
+
+    // The name for the heatmap layer in the model asset
+    private string heatmapLayer = "float_heatmaps";
+
+    // The name for the offsets layer in the model asset
+    private string offsetsLayer = "float_short_offsets";
+
+    // The name for the Sigmoid layer that returns the heatmap predictions
+    private string predictionLayer = "heatmap_predictions";
     
     // Start is called before the first frame update
     void Start()
     {
-        
+        // Compile the model asset into an object oriented representation
+        m_RunTimeModel = ModelLoader.Load(modelAsset);
+
+        // Create a model builder to modify the m_RunTimeModel
+        var modelBuilder = new ModelBuilder(m_RunTimeModel);
+
+        // Add a new Sigmoid layer that takes the output of the heatmap layer
+        modelBuilder.Sigmoid(predictionLayer, heatmapLayer);
+
+        // Create a worker that will execute the model with the selected backend
+        engine = WorkerFactory.CreateWorker(workerType, modelBuilder.model);
+    }
+
+    // OnDisable is called when the MonoBehavior becomes disabled or inactive
+    private void OnDisable()
+    {
+        // Release the resources allocated for the inference engine
+        engine.Dispose();
     }
 
     // Update is called once per frame
@@ -40,6 +66,15 @@ public class PoseNet : MonoBehaviour
     {
         // Preprocess the image for the current frame
         Texture2D processedImage = PreprocessImage();
+
+        // Create a Tensor of shape [1, processedImage.height, processedImage.width, 3]
+        Tensor input = new Tensor(processedImage, channels: 3);
+
+        // Execute neural network with the provided input
+        engine.Execute(input);
+
+        // Release GPU resources allocated for the Tensor
+        input.Dispose();
         
         // Remove the processedImage variable
         Destroy(processedImage);

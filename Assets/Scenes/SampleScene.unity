@@ -345,6 +345,9 @@ MonoBehaviour:
   posenetShader: {fileID: 7200000, guid: 644cd07841f668f49a32ae9832b027fa, type: 3}
   imageHeight: 360
   imageWidth: 360
+  modelAsset: {fileID: 5022602860645237092, guid: cff6aec394832f54cbf071f497c5fd4c,
+    type: 3}
+  workerType: 256
 --- !u!1 &2041595889
 GameObject:
   m_ObjectHideFlags: 0
