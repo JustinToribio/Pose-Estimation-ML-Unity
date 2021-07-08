@@ -37,6 +37,13 @@ public class PoseNet : MonoBehaviour
 
     // The name for the Sigmoid layer that returns the heatmap predictions
     private string predictionLayer = "heatmap_predictions";
+
+    // The number of key points estimated by the model
+    private const int numKeypoints = 17;
+
+    // Stores the current estimated 2D keypoint locations in videoTexture
+    // and their associated confidence values
+    float[][] keypointLocations = new float[numKeypoints][];
     
     // Start is called before the first frame update
     void Start()
@@ -73,6 +80,9 @@ public class PoseNet : MonoBehaviour
         // Execute neural network with the provided input
         engine.Execute(input);
 
+        // Determine the key point locations
+        ProcessOutput(engine.PeekOutput(predictionLayer), engine.PeekOutput(offsetsLayer));
+
         // Release GPU resources allocated for the Tensor
         input.Dispose();
         
@@ -80,6 +90,76 @@ public class PoseNet : MonoBehaviour
         Destroy(processedImage);
     }
 
+
+    #region Additional Methods
+
+    /// <summary>
+    /// Determine the estimated key point locations using the heatmaps and offsets tensors
+    /// </summary>
+    /// <param name="heatmaps">The heatmaps that indicate the confidence levels for key point locations</param>
+    /// <param name="offsets">The offsets that refine the key point locations determined with the heatmaps</param>
+    private void ProcessOutput(Tensor heatmaps, Tensor offsets)
+    {
+        // Calculate the stried used to scale down the inputImage
+        float stride = (imageHeight - 1) / (heatmaps.shape[1] - 1);
+        stride -= (stride % 8);
+
+        // The value used to scale the key point locations up to the source resolution
+        float scale = (float)videoTexture.height / (float)imageHeight;
+
+        // The value used to compensate for resizing the source image to a square aspect ratio
+        float unsqueezeScale = (float)videoTexture.width / (float)videoTexture.height;
+
+        // Iterate through heatmaps
+        for (int k = 0; k < numKeypoints; k++)
+        {
+
+        }
+    }
+
+    /// <summary>
+    /// Find the heatmap index that contains the highest confidence value and the associated offset vector
+    /// </summary>
+    /// <returns>The heatmap index, offset vector, and associated confidence value</returns>
+    private (float[], float[], float) LocateKeyPointIndex(Tensor heatmaps, Tensor offsets, int keypointIndex)
+    {
+        // Stores the highest confidence value found in the current heatmap
+        float maxConfidence = 0f;
+
+        // The (x,y) coordinates containing the confidence value in the current heatmap
+        float[] coords = new float[2];
+        // The accompanying offset vector for the current coords
+        float[] offset_vector = new float[2];
+
+        // Iterate through heatmap columns
+        for (int y = 0; y < heatmaps.shape[1]; y++)
+        {
+            // Iterate through column rows
+            for (int x = 0; x < heatmaps.shape[2]; x++)
+            {
+                if (heatmaps[0, y, x, keypointIndex] > maxConfidence)
+                {
+                    // Update the highest confidence for the current key point
+                    maxConfidence = heatmaps[0, y, x, keypointIndex];
+
+                    // Update the estimated key point coordinates
+                    coords = new float[] { x, y };
+
+                    // Update the offset vector for the current key point location
+                    offset_vector = new float[]
+                    {
+                        // X-axis offset
+                        offsets[0, y, x, keypointIndex + numKeypoints],
+                        // Y-axis offset
+                        offsets[0, y, x, keypointIndex]
+                    };
+                }
+            }
+        }
+
+        return (coords, offset_vector, maxConfidence);
+    }
+    
     /// <summary>
     /// Prepare the image to be fed into the neural network
     /// </summary>
@@ -173,4 +253,6 @@ public class PoseNet : MonoBehaviour
         RenderTexture.ReleaseTemporary(rTex);
         return nTex;
     }
+
+    #endregion
 }
