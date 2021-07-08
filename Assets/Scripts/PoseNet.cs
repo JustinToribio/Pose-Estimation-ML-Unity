@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.Barracuda;
 
 public class PoseNet : MonoBehaviour
 {
@@ -15,6 +16,18 @@ public class PoseNet : MonoBehaviour
 
     [Tooltip("The width of the image being fed to the model")]
     public int imageWidth = 360;
+
+    [Tooltip("The model asset file to use when performing inference")]
+    public NNModel modelAsset;
+
+    [Tooltip("The backend to use when performing inference")]
+    public WorkerFactory.Type workerType = WorkerFactory.Type.Auto;
+
+    // The compiled model used for performing inference
+    private Model m_RunTimeModel;
+
+    // The interface used to execute the neural network
+    private IWorker engine;
     
     // Start is called before the first frame update
     void Start()
