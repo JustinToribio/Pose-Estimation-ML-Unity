@@ -1,0 +1,16 @@
+﻿// Each #kernel tells which function to compile; you can have many kernels
+#pragma kernel PreprocessResNet
+
+// Create a RenderTexture with enableRandomWrite flag and set it
+// with cs.SetTexture
+RWTexture2D<half4> Result;
+// Stores the input image and is set with cs.SetTexture
+Texture2D<half4> InputImage;
+
+[numthreads(8,8,1)]
+void PreprocessResNet(uint3 id : SV_DispatchThreadID)
+{
+    Result[id.xy] = half4((InputImage[id.xy].x * 255.0h) - 123.15h,
+        (InputImage[id.xy].y * 255.0h) - 115.90h,
+        (InputImage[id.xy].z * 255.0h) - 103.06h, 1.0h);
+}
