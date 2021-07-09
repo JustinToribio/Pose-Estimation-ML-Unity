@@ -188,11 +188,15 @@ public class PoseNet : MonoBehaviour
         float stride = (imageHeight - 1) / (heatmaps.shape[1] - 1);
         stride -= (stride % 8);
 
+        // The smallest dimension of the videoTexture
+        int minDimension = Mathf.Min(videoTexture.width, videoTexture.height);
+        // The largest dimension of the videoTexture
+        int maxDimension = Mathf.Max(videoTexture.width, videoTexture.height);
+        
         // The value used to scale the key point locations up to the source resolution
-        float scale = (float)videoTexture.height / (float)imageHeight;
-
+        float scale = (float)minDimension / (float)Mathf.Min(imageWidth, imageHeight);
         // The value used to compensate for resizing the source image to a square aspect ratio
-        float unsqueezeScale = (float)videoTexture.width / (float)videoTexture.height;
+        float unsqueezeScale = (float)maxDimension / (float)minDimension;
 
         // Iterate through heatmaps
         for (int k = 0; k < numKeypoints; k++)
