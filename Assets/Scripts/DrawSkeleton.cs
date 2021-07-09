@@ -22,7 +22,14 @@ public class DrawSkeleton : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        // The number of joint pairs
+        int numPairs = keypoints.Length + 1;
+        // Initialize the lines array
+        lines = new GameObject[numPairs];
+        // Initialize the lineRenderers array
+        lineRenderers = new LineRenderer[numPairs];
+        // Initialize the jointPairs array
+        jointPairs = new int[numPairs][];
     }
 
     // Update is called once per frame
