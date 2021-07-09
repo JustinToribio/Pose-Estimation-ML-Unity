@@ -41,6 +41,12 @@ public class DrawSkeleton : MonoBehaviour
         
     }
 
+    // LateUpdate is called after all Update functions have been called
+    void LateUpdate()
+    {
+        RenderSkeleton();
+    }
+
 
     #region Additional Methods
 
