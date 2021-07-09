@@ -37,4 +37,37 @@ public class DrawSkeleton : MonoBehaviour
     {
         
     }
+
+
+    #region Additional Methods
+
+    /// <summary>
+    /// Create a line between the key point specified by the start and end point indices
+    /// </summary>
+    private void InitializeLine(int pairIndex, int startIndex, int endIndex, float width, Color color)
+    {
+        // Create a new joint pair with the specified start and end point indices
+        jointPairs[pairIndex] = new int[] {startIndex, endIndex};
+
+        // Create new line GameObject
+        string name = $"{keypoints[startIndex].name}_to_{keypoints[endIndex].name}";
+        lines[pairIndex] = new GameObject(name);
+
+        // Add LineRenderer component
+        lineRenderers[pairIndex] = lines[pairIndex].AddComponent<LineRenderer>();
+        // Make LineRenderer Shader Unlit
+        lineRenderers[pairIndex].material = new Material(Shader.Find("Unlit/Color"));
+        // Set the material color
+        lineRenderers[pairIndex].material.color = color;
+
+        // The line will consist of two points
+        lineRenderers[pairIndex].positionCount = 2;
+
+        // Set the width from the start point
+        lineRenderers[pairIndex].startWidth = width;
+        // Set the width from the end point
+        lineRenderers[pairIndex].endWidth = width;
+    }
+
+    #endregion
 }
