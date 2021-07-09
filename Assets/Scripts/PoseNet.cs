@@ -90,6 +90,9 @@ public class PoseNet : MonoBehaviour
         // Determine the key point locations
         ProcessOutput(engine.PeekOutput(predictionLayer), engine.PeekOutput(offsetsLayer));
 
+        // Update the positions for the key point GameObjects
+        UpdateKeyPointPositions();
+
         // Release GPU resources allocated for the Tensor
         input.Dispose();
         
