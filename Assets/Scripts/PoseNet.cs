@@ -23,6 +23,13 @@ public class PoseNet : MonoBehaviour
     [Tooltip("The backend to use when performing inference")]
     public WorkerFactory.Type workerType = WorkerFactory.Type.Auto;
 
+    [Tooltip("The minimum confidence level required to display the key point")]
+    [Range(0, 100)]
+    public int minConfidence = 70;
+
+    [Tooltip("The list of key point GameObjects that make up the pose skeleton")]
+    public GameObject[] keypoints;
+
     // The compiled model used for performing inference
     private Model m_RunTimeModel;
 
@@ -93,6 +100,35 @@ public class PoseNet : MonoBehaviour
 
     #region Additional Methods
 
+    /// <summary>
+    /// Update the positions for the key point GameObjects
+    /// </summary>
+    private void UpdateKeyPointPositions()
+    {
+        // Iterate through the key points
+        for (int k = 0; k < numKeypoints; k++)
+        {
+            // Check if the current confidence value meets the confidence threshold
+            if (keypointLocations[k][2] >= minConfidence / 100f)
+            {
+                // Activate the current key point GameObject
+                keypoints[k].SetActive(true);
+            }
+            else
+            {
+                // Deactivate the current key point GameObject
+                keypoints[k].SetActive(false);
+            }
+
+            // Create a new position Vector3
+            // Set the z value to -1f to place it in front of the video screen
+            Vector3 newPos = new Vector3(keypointLocations[k][0], keypointLocations[k][1], -1f);
+
+            // Update the current key point location
+            keypoints[k].transform.position = newPos;
+        }
+    }
+    
     /// <summary>
     /// Determine the estimated key point locations using the heatmaps and offsets tensors
     /// </summary>
