@@ -28,6 +28,10 @@ public class PoseNet : MonoBehaviour
     [Range(0, 100)]
     public int minConfidence = 70;
 
+    [Tooltip("The # of recent frames to average to calculate the new key point")]
+    [Range(0, 100)]
+    public int frameFiltering = 0;
+
     [Tooltip("The list of key point GameObjects that make up the pose skeleton")]
     public GameObject[] keypoints;
 
@@ -60,6 +64,11 @@ public class PoseNet : MonoBehaviour
 
     // The width of the current video source
     private int videoWidth;
+
+    // Declare variables to calculate the moving average of key points
+    private int count = 0;
+    private float[] movingAverageX = new float[numKeypoints];
+    private float[] movingAverageY = new float[numKeypoints];
     #endregion
 
 
@@ -139,6 +148,7 @@ public class PoseNet : MonoBehaviour
         ProcessOutput(engine.PeekOutput(predictionLayer), engine.PeekOutput(offsetsLayer));
 
         // Update the positions for the key point GameObjects
+        count ++;
         UpdateKeyPointPositions();
 
         // Release GPU resources allocated for the Tensor
@@ -173,13 +183,48 @@ public class PoseNet : MonoBehaviour
 
             // Create a new position Vector3
             // Set the z value to -1f to place it in front of the video screen
-            Vector3 newPos = new Vector3(keypointLocations[k][0], keypointLocations[k][1], -1f);
+            Vector3 newPos = new Vector3(keypointLocations[k][0], keypointLocations[k][1], -1f);            
+            
+            // Set the new key point to the new position if Frame Filtering is set to 0
+            if (frameFiltering == 0)
+            {
+                // Update the current key point location
+                keypoints[k].transform.position = newPos;
+            }
+            else
+            {
+                // Calculate the moving average of the coordinates if enough frames have occurred
+                if (count > frameFiltering)
+                {
+                    movingAverageX[k] = movingAverageX[k] + (newPos.x - movingAverageX[k]) / (frameFiltering + 1);
+                    movingAverageY[k] = movingAverageY[k] + (newPos.y - movingAverageY[k]) / (frameFiltering + 1);
 
-            // Update the current key point location
-            keypoints[k].transform.position = newPos;
+                    // Update the current key point location
+                    keypoints[k].transform.position = new Vector3(movingAverageX[k], movingAverageY[k], -1f);
+                }
+                // Calculate the moving average of the coordinates if just enough frames have occurred
+                else if (count == frameFiltering)
+                {
+                    movingAverageX[k] = movingAverageX[k] / frameFiltering;
+                    movingAverageY[k] = movingAverageY[k] / frameFiltering;
+
+                    // Update the current key point location
+                    keypoints[k].transform.position = new Vector3(movingAverageX[k], movingAverageY[k], -1f);
+                }
+                // Accumulate the moving average and set the new key point to the new position
+                // if not enough frames have occurred 
+                else
+                {
+                    movingAverageX[k] += newPos.x;
+                    movingAverageY[k] += newPos.y;
+
+                    // Update the current key point location
+                    keypoints[k].transform.position = newPos;
+                }
+            }
         }
     }
-    
+
     /// <summary>
     /// Determine the estimated key point locations using the heatmaps and offsets tensors
     /// </summary>
