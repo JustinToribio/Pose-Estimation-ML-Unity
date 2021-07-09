@@ -113,7 +113,29 @@ public class PoseNet : MonoBehaviour
         // Iterate through heatmaps
         for (int k = 0; k < numKeypoints; k++)
         {
+            // Get the location of the current key point and its associated confidence value
+            var locationInfo = LocateKeyPointIndex(heatmaps, offsets, k);
 
+            // The (x, y) coordinates contains the confidence value in the current heatmap
+            var coords = locationInfo.Item1;
+            var offset_vector = locationInfo.Item2;
+            var confidenceValue = locationInfo.Item3;
+
+            // Calculate the X-axis position
+            // Scale the X coordinate up to the inputImage resolution
+            // Add the offset vector to refine the key point location
+            // Scale the position up to the videoTexture resolution
+            // Compensate for any change in aspect ratio
+            float xPos = (coords[0]*stride + offset_vector[0])*scale*unsqueezeScale;
+
+            // Calculate the Y-axis position
+            // Scale the Y coordinate up to the inputImage resolution and subtract it from the imageHeight
+            // Add the offset vector to refine the key point location
+            // Scale the position up to the videoTexture resolution
+            float yPos = (imageHeight - (coords[1]*stride + offset_vector[1]))*scale;
+
+            // Update the estimated key point location in the source image
+            keypointLocations[k] = new float[] {xPos, yPos, confidenceValue};
         }
     }
 
