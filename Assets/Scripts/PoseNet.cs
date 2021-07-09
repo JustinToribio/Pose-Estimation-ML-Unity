@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Unity.Barracuda;
+using UnityEngine.Video;
 
 public class PoseNet : MonoBehaviour
 {
@@ -30,6 +31,8 @@ public class PoseNet : MonoBehaviour
     [Tooltip("The list of key point GameObjects that make up the pose skeleton")]
     public GameObject[] keypoints;
 
+    
+    #region private
     // The compiled model used for performing inference
     private Model m_RunTimeModel;
 
@@ -50,8 +53,16 @@ public class PoseNet : MonoBehaviour
 
     // Stores the current estimated 2D keypoint locations in videoTexture
     // and their associated confidence values
-    float[][] keypointLocations = new float[numKeypoints][];
-    
+    private float[][] keypointLocations = new float[numKeypoints][];
+
+    // The height of the current video source
+    private int videoHeight;
+
+    // The width of the current video source
+    private int videoWidth;
+    #endregion
+
+
     // Start is called before the first frame update
     void Start()
     {
