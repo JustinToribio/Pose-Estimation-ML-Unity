@@ -45,6 +45,51 @@ public class DrawSkeleton : MonoBehaviour
     #region Additional Methods
 
     /// <summary>
+    /// Draw the pose skeleton based on the latest location data
+    /// </summary>
+    private void RenderSkeleton()
+    {
+        // Iterate through the joint pairs
+        for (int i = 0; i < jointPairs.Length; i++)
+        {
+            // Set the start point index
+            int startpointIndex = jointPairs[i][0];
+            // Set the end point index
+            int endpointIndex = jointPairs[i][1];
+
+            // Set the GameObject for the starting key point
+            GameObject startingKeyPoint = keypoints[startpointIndex];
+            // Set the GameObject for the ending key point
+            GameObject endingKeyPoint = keypoints[endpointIndex];
+
+            // Get the starting position for the line
+            Vector3 startPos = new Vector3(startingKeyPoint.transform.position.x,
+                                           startingKeyPoint.transform.position.y,
+                                           startingKeyPoint.transform.position.z);
+            // Get the ending position for the line
+            Vector3 endPos = new Vector3(endingKeyPoint.transform.position.x,
+                                         endingKeyPoint.transform.position.y,
+                                         endingKeyPoint.transform.position.z);
+
+            // Check if both the starting and ending key points are active
+            if (startingKeyPoint.activeInHierarchy && endingKeyPoint.activeInHierarchy)
+            {
+                // Activate the line
+                lineRenderers[i].gameObject.SetActive(true);
+                // Update the starting position
+                lineRenderers[i].SetPosition(0, startPos);
+                // Update the ending position
+                lineRenderers[i].SetPosition(1, endPos);
+            }
+            else
+            {
+                // Deactivate the line
+                lineRenderers[i].gameObject.SetActive(false);
+            }
+        }
+    }
+    
+    /// <summary>
     /// Initialize the pose skeleton
     /// </summary>
     private void InitializeSkeleton()
