@@ -30,6 +30,9 @@ public class DrawSkeleton : MonoBehaviour
         lineRenderers = new LineRenderer[numPairs];
         // Initialize the jointPairs array
         jointPairs = new int[numPairs][];
+
+        // Initialize the pose skeleton
+        InitializeSkeleton();
     }
 
     // Update is called once per frame
