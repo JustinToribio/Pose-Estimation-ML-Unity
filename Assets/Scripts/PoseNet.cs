@@ -118,6 +118,9 @@ public class PoseNet : MonoBehaviour
     {
         // Release the resources allocated for the inference engine
         engine.Dispose();
+
+        //Release videoTexture
+        videoTexture.Release();
     }
 
     // Update is called once per frame
