@@ -42,6 +42,48 @@ public class DrawSkeleton : MonoBehaviour
     #region Additional Methods
 
     /// <summary>
+    /// Initialize the pose skeleton
+    /// </summary>
+    private void InitializeSkeleton()
+    {
+        // Nose to left eye
+        InitializeLine(0, 0, 1, lineWidth, Color.magenta);
+        // Nose to right eye
+        InitializeLine(1, 0, 2, lineWidth, Color.magenta);
+        // Left eye to left ear
+        InitializeLine(2, 1, 3, lineWidth, Color.magenta);
+        // Right eye to right ear
+        InitializeLine(3, 2, 4, lineWidth, Color.magenta);
+
+        // Left shoulder to right shoulder
+        InitializeLine(4, 5, 6, lineWidth, Color.red);
+        // Left shoulder to left hip
+        InitializeLine(5, 5, 11, lineWidth, Color.red);
+        // Right shoulder to right hip
+        InitializeLine(6, 6, 12, lineWidth, Color.red);
+        // Left shoulder to right hip
+        InitializeLine(7, 5, 12, lineWidth, Color.red);
+        // Right shoulder to left hip
+        InitializeLine(8, 6, 11, lineWidth, Color.red);
+        // Left hip to right hip
+        InitializeLine(9, 11, 12, lineWidth, Color.red);
+
+        // Left Arm
+        InitializeLine(10, 5, 7, lineWidth, Color.green);
+        InitializeLine(11, 7, 9, lineWidth, Color.green);
+        // Right Arm
+        InitializeLine(12, 6, 8, lineWidth, Color.green);
+        InitializeLine(13, 8, 10, lineWidth, Color.green);
+
+        // Left Leg
+        InitializeLine(14, 11, 13, lineWidth, Color.blue);
+        InitializeLine(15, 13, 15, lineWidth, Color.blue);
+        // Right Leg
+        InitializeLine(16, 12, 14, lineWidth, Color.blue);
+        InitializeLine(17, 14, 16, lineWidth, Color.blue);
+    }
+    
+    /// <summary>
     /// Create a line between the key point specified by the start and end point indices
     /// </summary>
     private void InitializeLine(int pairIndex, int startIndex, int endIndex, float width, Color color)
