@@ -214,13 +214,22 @@ public class PoseNet : MonoBehaviour
             // Add the offset vector to refine the key point location
             // Scale the position up to the videoTexture resolution
             // Compensate for any change in aspect ratio
-            float xPos = (coords[0]*stride + offset_vector[0])*scale*unsqueezeScale;
+            float xPos = (coords[0]*stride + offset_vector[0])*scale;
 
             // Calculate the Y-axis position
             // Scale the Y coordinate up to the inputImage resolution and subtract it from the imageHeight
             // Add the offset vector to refine the key point location
             // Scale the position up to the videoTexture resolution
             float yPos = (imageHeight - (coords[1]*stride + offset_vector[1]))*scale;
+
+            if (videoTexture.width > videoTexture.height)
+            {
+                xPos *= unsqueezeScale;
+            }
+            else
+            {
+                yPos *= unsqueezeScale;
+            }
 
             // Update the estimated key point location in the source image
             keypointLocations[k] = new float[] {xPos, yPos, confidenceValue};
