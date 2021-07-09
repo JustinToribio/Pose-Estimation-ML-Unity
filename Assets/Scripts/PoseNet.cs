@@ -96,7 +96,7 @@ public class PoseNet : MonoBehaviour
         // Get a reference to the Main Camera GameObject
         GameObject mainCamera = GameObject.Find("Main Camera");
         // Adjust the camera position to account for updates to the VideoScreen
-        mainCamera.transform.position = new Vector3(videoWidth / 2, videoHeight / 2, -(videoWidth / 2));
+        mainCamera.transform.position = new Vector3(videoWidth / 2, videoHeight / 2, -2);
         // Adjust the camera size to account for updates to the VideoScreen
         mainCamera.GetComponent<Camera>().orthographicSize = videoHeight/2;
 
