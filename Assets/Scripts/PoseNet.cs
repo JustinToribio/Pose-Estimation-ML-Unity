@@ -66,6 +66,40 @@ public class PoseNet : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        // Get a reference to the Video Player GameObject
+        GameObject videoPlayer = GameObject.Find("Video Player");
+
+        // Get the Transform component for the VideoScreen GameObject
+        Transform videoScreen = GameObject.Find("VideoScreen").transform;
+        
+        // Update the videoHeight
+        videoHeight = (int)videoPlayer.GetComponent<VideoPlayer>().height;
+
+        // Update the videoWidth
+        videoWidth = (int)videoPlayer.GetComponent<VideoPlayer>().width;
+        
+        // Release the current videoTexture
+        videoTexture.Release();
+        // Create a new videoTexture using the current video dimensions
+        videoTexture = new RenderTexture(videoWidth, videoHeight, 24, RenderTextureFormat.ARGB32);
+
+        // Use new videoTexture for Video Player
+        videoPlayer.GetComponent<VideoPlayer>().targetTexture = videoTexture;
+
+        // Apply the new videoTexture to the VideoScreen GameObject
+        videoScreen.gameObject.GetComponent<MeshRenderer>().material.SetTexture("_MainTex", videoTexture);
+        // Adjust the VideoScreen dimensions for the new videoTexture
+        videoScreen.localScale = new Vector3(videoWidth, videoHeight, videoScreen.localScale.z);
+        // Adjust the VideoScreen position for the new videoTexture
+        videoScreen.position = new Vector3(videoWidth / 2, videoHeight / 2, 1);
+
+        // Get a reference to the Main Camera GameObject
+        GameObject mainCamera = GameObject.Find("Main Camera");
+        // Adjust the camera position to account for updates to the VideoScreen
+        mainCamera.transform.position = new Vector3(videoWidth / 2, videoHeight / 2, -(videoWidth / 2));
+        // Adjust the camera size to account for updates to the VideoScreen
+        mainCamera.GetComponent<Camera>().orthographicSize = videoHeight/2;
+
         // Compile the model asset into an object oriented representation
         m_RunTimeModel = ModelLoader.Load(modelAsset);
 
