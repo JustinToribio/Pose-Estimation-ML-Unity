@@ -63,8 +63,12 @@ The purpose of this project is to perform real-time human pose estimation on vid
 
 * There are 2 main settings in the pose estimator that you can adjust to achieve a smoother and more stable skeleton animation, with trade-offs to both: Frame Filtering and Min Confidence.
 
-* The results of these adjustments are best seen with the “VideoScreen” deactivated, so that all you see is the animated skeleton against a black background.
+* The results of these adjustments are best seen with the scene playing and the “VideoScreen” deactivated, so that all you see is the animated skeleton against a black background.
 
 * The order here matters: FIRST play the scene by pressing the “Play” button at the top, THEN deactivate the “VideoScreen” by clicking it in the “Hierarchy” section and unchecking the tick box at the top of the “Inspector” section.
 
 ![skeleton only](Images\skeleton_only.png)
+
+* Then click the “PoseEstimator” in the “Hierarchy” section to open it in the “Inspector” section and adjust the “Frame Filtering” and “Min Confidence” settings to see their impact on the animation.
+
+![smoothing](Images\smoothing.png)
