@@ -26,6 +26,18 @@ The purpose of this project is to perform real-time human pose estimation on vid
 
 * This project uses a pre-trained PoseNet TensorFlow model.  I created a Colab notebook [here](https://colab.research.google.com/drive/1DE0meDsiVmhMqphGYVlHuxDK1AT3J2vp?usp=sharing) that you can use to convert a TensorFlow model.  Just upload your TF model, run the cells and then download the resulting ONNX model.
 
+### Load the model into the pose estimator  
+
+* This project already has the pre-trained PoseNet model loaded into the pose estimator, but follow these steps if you want to load your own model.
+
+* In the “Hierarchy” section in the top left, click on “PoseEstimator” to open it in the “Inspector” section to the right.
+
+* In the “Project” section at the bottom, click on the `Assets/Models` folder.  The pre-trained PoseNet model is already in there, but you can drag and drop any additional models you want into there.  Again, make sure they are in ONNX format as per the previous section.
+
+* Drag and drop the model you want into the pose estimator’s “Model Asset” field in the “Inspector” section to the right.
+
+![assets models](Images\assets_models.png)
+
 ### Load the video into the player
 * In the “Hierarchy” section in the top left, click on “Video Player” to open it in the “Inspector” section to the right.
 
