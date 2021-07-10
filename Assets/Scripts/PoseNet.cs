@@ -22,7 +22,7 @@ public class PoseNet : MonoBehaviour
     public NNModel modelAsset;
 
     [Tooltip("The backend to use when performing inference")]
-    public WorkerFactory.Type workerType = WorkerFactory.Type.Auto;
+    public WorkerFactory.Type workerType = WorkerFactory.Type.ComputePrecompiled;
 
     [Tooltip("The minimum confidence level required to display the key point")]
     [Range(0, 100)]
