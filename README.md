@@ -48,3 +48,13 @@ The purpose of this project is to perform real-time human pose estimation on vid
 * Drag and drop the video you want into the video player’s “Video Clip” field in the “Inspector” section to the right.
 
 ![assets video](Images\assets_video.png)
+
+### Run the pose estimation
+
+* Click the “Play” button at the top to play the video and run the pose estimation.  You will see an animated skeleton being rendered over the person in the video.
+
+* Click the “Play” button again to stop the video and pose estimation.
+
+![assets video](Images\bball1.png)
+
+![assets video](Images\bball2.png)
