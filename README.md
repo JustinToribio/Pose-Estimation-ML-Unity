@@ -41,10 +41,10 @@ The purpose of this project is to perform real-time human pose estimation on vid
 ### Load the video into the player
 * In the “Hierarchy” section in the top left, click on “Video Player” to open it in the “Inspector” section to the right.
 
-![video player](Images\video_player.png)
-
 * In the “Project” section at the bottom, click on the `Assets/Videos` folder.  There are already some video files in there, but you can drag and drop any additional videos you want into there. 
 
 * This project only works on single-person video, so make sure there is only 1 person in the video.
+
+* Drag and drop the video you want into the video player’s “Video Clip” field in the “Inspector” section to the right.
 
 ![assets video](Images\assets_video.png)
