@@ -55,6 +55,16 @@ The purpose of this project is to perform real-time human pose estimation on vid
 
 * Click the “Play” button again to stop the video and pose estimation.
 
-![assets video](Images\bball1.png)
+![bball 1](Images\bball1.png)
 
-![assets video](Images\bball2.png)
+![bball 2](Images\bball2.png)
+
+### Filtering and optimization for smoother animation
+
+* There are 2 main settings in the pose estimator that you can adjust to achieve a smoother and more stable skeleton animation, with trade-offs to both: Frame Filtering and Min Confidence.
+
+* The results of these adjustments are best seen with the “VideoScreen” deactivated, so that all you see is the animated skeleton against a black background.
+
+* The order here matters: FIRST play the scene by pressing the “Play” button at the top, THEN deactivate the “VideoScreen” by clicking it in the “Hierarchy” section and unchecking the tick box at the top of the “Inspector” section.
+
+![skeleton only](Images\skeleton_only.png)
