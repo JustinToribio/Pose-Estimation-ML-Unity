@@ -72,3 +72,14 @@ The purpose of this project is to perform real-time human pose estimation on vid
 * Then click the “PoseEstimator” in the “Hierarchy” section to open it in the “Inspector” section and adjust the “Frame Filtering” and “Min Confidence” settings to see their impact on the animation.
 
 ![smoothing](Images\smoothing.png)
+
+#### Frame Filtering
+* This is a simple filtering technique I implemented that is intended to smooth the animation. The prediction of the key points (joints of the skeleton) on each sequential frame of the video can sometimes vary significantly, causing jitter and a choppy animation.
+
+* When frame filtering is active (the setting is > 0), instead of rendering the predicted key points for the next frame, it renders the AVERAGE of the predictions for the last n frames (n being the value of the setting, i.e. a setting of 5 means the predictions for the last 5 frames are averaged).
+
+* Rendering a “moving average” of key point predictions smooths the animation because large variations in sequential predictions won’t cause as large a variation on the moving average.
+
+* However, there’s a trade-off: the animation becomes slower and lags behind the actual video.
+
+* A higher frame filtering setting will create more smoothing, but also more slowing and lag.  A good range seems to be around 3-10.
