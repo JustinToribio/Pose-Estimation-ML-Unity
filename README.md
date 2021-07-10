@@ -74,7 +74,8 @@ The purpose of this project is to perform real-time human pose estimation on vid
 ![smoothing](Images\smoothing.png)
 
 #### Frame Filtering
-* This is a simple filtering technique I implemented that is intended to smooth the animation. The prediction of the key points (joints of the skeleton) on each sequential frame of the video can sometimes vary significantly, causing jitter and a choppy animation.
+
+* This is a filtering technique I implemented that is intended to smooth the animation. The prediction of the key points (joints of the skeleton) on each sequential frame of the video can sometimes vary significantly, causing jitter and a choppy animation.
 
 * When frame filtering is active (the setting is > 0), instead of rendering the predicted key points for the next frame, it renders the AVERAGE of the predictions for the last n frames (n being the value of the setting, i.e. a setting of 5 means the predictions for the last 5 frames are averaged).
 
@@ -83,3 +84,15 @@ The purpose of this project is to perform real-time human pose estimation on vid
 * However, there’s a trade-off: the animation becomes slower and lags behind the actual video.
 
 * A higher frame filtering setting will create more smoothing, but also more slowing and lag.  A good range seems to be around 3-10.
+
+#### Min Confidence
+
+* Min confidence is the confidence threshold the pose estimator needs to exceed in order to render the key point.  For example, a setting of 70 means that the pose estimator will only render the key point if it believes there is at least a 70% probability that the prediction is accurate.
+
+* Having too high a threshold can cause the animation to become unstable, as key points and the lines connecting them vanish between frames, because the predictions didn’t meet the confidence threshold.
+
+* Thus, lowering the threshold can create a more stable animation (less vanishing key points), but also increases the probability of rendering inaccurate key points.  
+
+* However, it’s important to note that a low confidence prediction doesn’t NECESSARILY mean it will be inaccurate.  The pose estimator will always choose the key point prediction it has the MOST confidence in, out of all of the options it has to choose from.  Even if that maximum confidence is only 30%, it doesn’t necessarily mean the prediction will be wrong, it just means the predictor isn’t as certain as when the confidence is higher… the prediction COULD still be right.  Therefore, the downside of having too low a threshold (POSSIBLE inaccurate key point predictions) may not be as significant as the downside of having too high a threshold (almost definite vanishing key points). 
+
+* I recommend calibrating this to the highest setting possible before too much instability in the animation starts to occur.
