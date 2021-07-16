@@ -13,7 +13,7 @@ The purpose of this project is to perform real-time human pose estimation on vid
 
 ## Installing and running the project
 
-* Download or clone this repository to your local machine.
+* Download or clone this repository to your local machine.  There is an issue when downloading directly from this Github repo (the Unity GameObjects disappear for some reason).  Until I resolve this issue, you can download the entire working repo from [here](https://drive.google.com/file/d/1Qlb3D_iu7zouAmS_xSpzJUTpGeiE2i62/view?usp=sharing).
 
 * If you are using Unity Hub, under “Projects”, click “Add” and open the location of the project on your machine.  Unity Hub will automatically detect the version of Unity required for the project and prompt you to install it if necessary.  Click the project from the list to open it inside the Unity Interface.
 
