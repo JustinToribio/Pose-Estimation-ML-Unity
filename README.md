@@ -38,7 +38,7 @@ The purpose of this project is to perform real-time human pose estimation on vid
 
 * Drag and drop the model you want into the pose estimator’s “Model Asset” field in the “Inspector” section to the right.
 
-![assets models](Images\assets_models.png)
+![assets models](Images/assets_models.png)
 
 ### Load the video into the player
 * In the “Hierarchy” section in the top left, click on “Video Player” to open it in the “Inspector” section to the right.
@@ -49,7 +49,7 @@ The purpose of this project is to perform real-time human pose estimation on vid
 
 * Drag and drop the video you want into the video player’s “Video Clip” field in the “Inspector” section to the right.
 
-![assets video](Images\assets_video.png)
+![assets video](Images/assets_video.png)
 
 ### Run the pose estimation
 
@@ -57,9 +57,9 @@ The purpose of this project is to perform real-time human pose estimation on vid
 
 * Click the “Play” button again to stop the video and pose estimation.
 
-![bball 1](Images\bball1.png)
+![bball 1](Images/bball1.png)
 
-![bball 2](Images\bball2.png)
+![bball 2](Images/bball2.png)
 
 ### Filtering and optimization for smoother animation
 
@@ -69,11 +69,11 @@ The purpose of this project is to perform real-time human pose estimation on vid
 
 * The order here matters: FIRST play the scene by pressing the “Play” button at the top, THEN deactivate the “VideoScreen” by clicking it in the “Hierarchy” section and unchecking the tick box at the top of the “Inspector” section.
 
-![skeleton only](Images\skeleton_only.png)
+![skeleton only](Images/skeleton_only.png)
 
 * Then click the “PoseEstimator” in the “Hierarchy” section to open it in the “Inspector” section and adjust the “Frame Filtering” and “Min Confidence” settings to see their impact on the animation.
 
-![smoothing](Images\smoothing.png)
+![smoothing](Images/smoothing.png)
 
 #### Frame Filtering
 
