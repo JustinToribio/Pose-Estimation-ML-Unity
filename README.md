@@ -2,7 +2,7 @@
 
 The purpose of this project is to perform real-time human pose estimation on video input.  This is accomplished by implementing a pre-trained pose estimation machine learning model in Unity with the Barracuda inference library.  The outcome will be a rendered animated skeleton that represents the human poses.
 
-![bball 1](Images\bball_intro.png)
+![bball 1](Images/bball_intro.png)
 
 ## Prerequisites
 
